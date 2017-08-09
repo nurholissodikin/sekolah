@@ -15,6 +15,8 @@ class EkskulController extends Controller
     public function index()
     {
         //
+            $ekskul =  ekskul::all();;
+        return view('ekskul.index',compact('ekskul'));
     }
 
     /**
@@ -22,9 +24,12 @@ class EkskulController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+
+           return view('ekskul.create');
+             
     }
 
     /**
@@ -36,6 +41,23 @@ class EkskulController extends Controller
     public function store(Request $request)
     {
         //
+        $ekskul = new ekskul;
+        $ekskul ->nama = $request ->a;
+    
+     
+        
+           if ($request->hasFile('foto')) {
+            $ekskuls = $request->file('foto');
+            $extension = $ekskuls->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $ekskuls->move($destinationPath, $filename);
+                $ekskul->foto=$filename;
+        }
+           
+        $ekskul ->save();
+        return redirect()->route('ekskul.index');
     }
 
     /**
@@ -55,9 +77,11 @@ class EkskulController extends Controller
      * @param  \App\ekskul  $ekskul
      * @return \Illuminate\Http\Response
      */
-    public function edit(ekskul $ekskul)
+    public function edit($id)
     {
         //
+          $ekskul= ekskul::findOrFail($id);
+        return view('ekskul.edit')->with(compact('ekskul'));
     }
 
     /**
@@ -67,9 +91,26 @@ class EkskulController extends Controller
      * @param  \App\ekskul  $ekskul
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ekskul $ekskul)
+    public function update(Request $request,  $id)
     {
         //
+        $ekskul= ekskul::findOrFail($id);
+        $ekskul ->nama = $request ->a;
+    
+     
+        
+           if ($request->hasFile('foto')) {
+            $ekskuls = $request->file('foto');
+            $extension = $ekskuls->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $ekskuls->move($destinationPath, $filename);
+                $ekskul->foto=$filename;
+        }
+           
+        $ekskul ->save();
+        return redirect()->route('ekskul.index');
     }
 
     /**
@@ -78,8 +119,11 @@ class EkskulController extends Controller
      * @param  \App\ekskul  $ekskul
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ekskul $ekskul)
+    public function destroy($id)
     {
         //
+            $ekskul = ekskul::findOrFail($id);
+        $ekskul ->delete();
+         return redirect()->route('ekskul.index');
     }
 }

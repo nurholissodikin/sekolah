@@ -21,6 +21,15 @@ Route::get('/a', function () {
 Route::get('/b', function () {
     return view('a');
 });
+Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']], function(){
+
+Route::resource('profil','ProfilController');
+Route::resource('fasilitas','FasilitasController');
+Route::resource('ekskul','EkskulController');
+Route::resource('ppdb','PpdbController');
+
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

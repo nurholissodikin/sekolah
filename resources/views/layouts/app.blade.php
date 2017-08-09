@@ -35,9 +35,20 @@
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
+                   <ul class="nav navbar-nav">
+                        @if (Auth::check())
+                        <li><a href="{{ url('/home') }}">Dashboard</a></li>
+         
+                        @endif
+                         @role('admin')
+                        <li><a href="{{ route('profil.index') }}">Profil</a></li>
+                        <li><a href="{{ route('fasilitas.index') }}">Fasilitas</a></li>
+                        <li><a href="{{ route('ekskul.index') }}">Ekskul</a></li>
+                         <li><a href="{{ route('ppdb.index') }}">ppdb</a></li>
+                        
+                               @endrole
                     </ul>
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">

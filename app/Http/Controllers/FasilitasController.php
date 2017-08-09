@@ -15,6 +15,8 @@ class FasilitasController extends Controller
     public function index()
     {
         //
+            $fasilitas =  fasilitas::all();;
+        return view('fasilitas.index',compact('fasilitas'));
     }
 
     /**
@@ -25,6 +27,7 @@ class FasilitasController extends Controller
     public function create()
     {
         //
+             return view('fasilitas.create');
     }
 
     /**
@@ -36,6 +39,24 @@ class FasilitasController extends Controller
     public function store(Request $request)
     {
         //
+          $fasilitas = new fasilitas;
+        $fasilitas ->nama = $request ->a;
+    
+     
+        
+           if ($request->hasFile('foto')) {
+            $fasilitass = $request->file('foto');
+            $extension = $fasilitass->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $fasilitass->move($destinationPath, $filename);
+                $fasilitas->foto=$filename;
+        }
+           $fasilitas ->ket = $request ->b;
+           
+        $fasilitas ->save();
+        return redirect()->route('fasilitas.index');
     }
 
     /**
@@ -55,9 +76,11 @@ class FasilitasController extends Controller
      * @param  \App\fasilitas  $fasilitas
      * @return \Illuminate\Http\Response
      */
-    public function edit(fasilitas $fasilitas)
+    public function edit($id)
     {
         //
+            $fasilitas= fasilitas::findOrFail($id);
+        return view('fasilitas.edit')->with(compact('fasilitas'));
     }
 
     /**
@@ -67,9 +90,27 @@ class FasilitasController extends Controller
      * @param  \App\fasilitas  $fasilitas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, fasilitas $fasilitas)
+    public function update(Request $request, $id)
     {
         //
+         $fasilitas= fasilitas::findOrFail($id);
+         $fasilitas ->nama = $request ->a;
+    
+     
+        
+           if ($request->hasFile('foto')) {
+            $fasilitass = $request->file('foto');
+            $extension = $fasilitass->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $fasilitass->move($destinationPath, $filename);
+                $fasilitas->foto=$filename;
+        }
+           $fasilitas ->ket = $request ->b;
+           
+        $fasilitas ->save();
+        return redirect()->route('fasilitas.index');
     }
 
     /**
@@ -78,8 +119,11 @@ class FasilitasController extends Controller
      * @param  \App\fasilitas  $fasilitas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(fasilitas $fasilitas)
+    public function destroy($id)
     {
         //
+              $fasilitas = fasilitas::findOrFail($id);
+        $fasilitas ->delete();
+         return redirect()->route('fasilitas.index');
     }
 }

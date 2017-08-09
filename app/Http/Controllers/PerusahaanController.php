@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ppdb;
+use App\perusahaan;
 use Illuminate\Http\Request;
 
-class PpdbController extends Controller
+class PerusahaanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,6 @@ class PpdbController extends Controller
     public function index()
     {
         //
-              $ppdb = ppdb::all();
-        return view('ppdb.index',compact('ppdb'));
     }
 
     /**
@@ -27,7 +25,6 @@ class PpdbController extends Controller
     public function create()
     {
         //
-          return view('ppdb.create');
     }
 
     /**
@@ -39,23 +36,15 @@ class PpdbController extends Controller
     public function store(Request $request)
     {
         //
-          $ppdb = new ppdb;
-        $ppdb ->periode = $request ->a;
-        $ppdb ->tanggalpenerimaan = $request ->b;
-     
-               $ppdb ->lokasi = $request ->c;
-
-        $ppdb ->save();
-        return redirect()->route('ppdb.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\ppdb  $ppdb
+     * @param  \App\perusahaan  $perusahaan
      * @return \Illuminate\Http\Response
      */
-    public function show(ppdb $ppdb)
+    public function show(perusahaan $perusahaan)
     {
         //
     }
@@ -63,47 +52,34 @@ class PpdbController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ppdb  $ppdb
+     * @param  \App\perusahaan  $perusahaan
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(perusahaan $perusahaan)
     {
         //
-                  $ppdb =  ppdb::findOrFail($id);
-        return view('ppdb.edit',compact('ppdb'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ppdb  $ppdb
+     * @param  \App\perusahaan  $perusahaan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, perusahaan $perusahaan)
     {
         //
-  $ppdb =  ppdb::findOrFail($id);
-        $ppdb ->periode = $request ->a;
-        $ppdb ->tanggalpenerimaan = $request ->b;
-     
-               $ppdb ->lokasi = $request ->ec;
-
-        $ppdb ->save();
-        return redirect()->route('ppdb.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ppdb  $ppdb
+     * @param  \App\perusahaan  $perusahaan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ppdb $ppdb)
+    public function destroy(perusahaan $perusahaan)
     {
         //
-                  $ppdb = ppdb::findOrFail($id);
-        $ppdb ->delete();
-         return redirect()->route('ppdb.index');
     }
 }

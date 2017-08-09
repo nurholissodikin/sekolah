@@ -15,6 +15,8 @@ class ProfilController extends Controller
     public function index()
     {
         //
+             $profil = profil::all();
+        return view('profil.index',compact('profil'));
     }
 
     /**
@@ -25,6 +27,7 @@ class ProfilController extends Controller
     public function create()
     {
         //
+          return view('profil.create');
     }
 
     /**
@@ -36,6 +39,35 @@ class ProfilController extends Controller
     public function store(Request $request)
     {
         //
+        $profil = new profil;
+        $profil ->profil = $request ->a;
+        $profil ->sambutan = $request ->b;
+     
+        
+        if ($request->hasFile('foto')) {
+            $profils = $request->file('foto');
+            $extension = $profils->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $profils->move($destinationPath, $filename);
+                $profil->foto=$filename;
+        }
+           $profil ->sejarah = $request ->c;
+                if ($request->hasFile('gambar')) {
+            $profils = $request->file('gambar');
+            $extension = $profils->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $profils->move($destinationPath, $filename);
+                $profil->gambar=$filename;
+        }
+             $profil ->visi = $request ->d;
+               $profil ->misi = $request ->e;
+
+        $profil ->save();
+        return redirect()->route('profil.index');
     }
 
     /**
@@ -55,9 +87,12 @@ class ProfilController extends Controller
      * @param  \App\profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function edit(profil $profil)
+    public function edit($id)
     {
         //
+          $profil =  profil::findOrFail($id);
+        return view('profil.edit',compact('profil'));
+        
     }
 
     /**
@@ -67,9 +102,38 @@ class ProfilController extends Controller
      * @param  \App\profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, profil $profil)
+    public function update(Request $request, $id)
     {
         //
+          $profil =  profil::findOrFail($id);
+        $profil ->profil = $request ->a;
+        $profil ->sambutan = $request ->b;
+     
+        
+        if ($request->hasFile('foto')) {
+            $profils = $request->file('foto');
+            $extension = $profils->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $profils->move($destinationPath, $filename);
+                $profil->foto=$filename;
+        }
+           $profil ->sejarah = $request ->c;
+                if ($request->hasFile('gambar')) {
+            $profils = $request->file('gambar');
+            $extension = $profils->getClientOriginalExtension();
+            $filename = str_random('6'). '.' .$extension;
+            $destinationPath = public_path() . 
+                DIRECTORY_SEPARATOR . 'img';
+                $profils->move($destinationPath, $filename);
+                $profil->gambar=$filename;
+        }
+             $profil ->visi = $request ->d;
+               $profil ->misi = $request ->e;
+
+        $profil ->save();
+        return redirect()->route('profil.index');
     }
 
     /**
@@ -78,8 +142,11 @@ class ProfilController extends Controller
      * @param  \App\profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function destroy(profil $profil)
+    public function destroy($id)
     {
         //
+             $profil = profil::findOrFail($id);
+        $profil ->delete();
+         return redirect()->route('profil.index');
     }
 }
